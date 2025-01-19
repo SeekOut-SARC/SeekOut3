@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Location-Based Hint</title>
+    <title>Hint Verification</title>
     <style>
         body {
             background-color: black;
@@ -27,60 +27,22 @@
     </style>
 </head>
 <body>
-    <h1>Verify Your Location and Previous Hint</h1>
-    <p id="status">Checking your location...</p>
+    <h1>Verify Your Previous Hint</h1>
+    <p id="status">Verifying your hint...</p>
     <p id="hint" style="font-weight: bold; font-size: 20px;"></p>
 
     <script>
-        // Target location (latitude and longitude)
-        const targetLatitude = 19.1344325; // Example: Latitude
-        const targetLongitude = 72.9105678; // Example: Longitude
-        const thresholdDistance = 0.1; // Distance threshold in kilometers (50 meters)
-
-        // Previous hint to verify
+        // Correct previous hint to verify
         const correctPreviousHint = "321CRED";
-        // Function to calculate the distance between two coordinates
-        function getDistance(lat1, lon1, lat2, lon2) {
-            const toRad = (value) => (value * Math.PI) / 180;
-            const R = 6371; // Earth's radius in kilometers
-            const dLat = toRad(lat2 - lat1);
-            const dLon = toRad(lon2 - lon1);
-            const a =
-                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            return R * c; // Distance in kilometers
-        }
 
         // Prompt user for their previous hint
         const userPreviousHint = prompt("ENTER YOUR PREVIOUS HINT CODE:");
 
         if (userPreviousHint === correctPreviousHint) {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const userLatitude = position.coords.latitude;
-                        const userLongitude = position.coords.longitude;
-                        const distance = getDistance(userLatitude, userLongitude, targetLatitude, targetLongitude);
-
-                        if (distance <= thresholdDistance) {
-                            document.getElementById("status").innerText = "Location matched!";
-                            document.getElementById("hint").innerText = "🎉 YOUR HINT:\nWhere the edge of the world meets the sky, and reflections seem to stretch endlessly. The surface may appear tranquil, but beneath it, secrets ripple, ready to be uncovered by those who understand the quiet. Seek the place where stillness deceives, and the truth remains hidden in plain sight. CODE- 213POV";
-                        } else {
-                            document.getElementById("status").innerText = "Location mismatch!";
-                            document.getElementById("hint").innerText = "❌ You are not at the correct location. Please try again.";
-                        }
-                    },
-                    (error) => {
-                        document.getElementById("status").innerText = "Unable to get your location. Please enable GPS and try again.";
-                    }
-                );
-            } else {
-                document.getElementById("status").innerText = "Geolocation is not supported by your browser.";
-            }
+            document.getElementById("status").innerText = "Hint verified!";
+            document.getElementById("hint").innerText = "🎉 YOUR NEXT HINT:\nWhere the edge of the world meets the sky, and reflections seem to stretch endlessly. The surface may appear tranquil, but beneath it, secrets ripple, ready to be uncovered by those who understand the quiet. Seek the place where stillness deceives, and the truth remains hidden in plain sight. CODE- 213POV";
         } else {
-            document.getElementById("status").innerText = "Incorrect previous hint!";
+            document.getElementById("status").innerText = "Incorrect hint!";
             document.getElementById("hint").innerText = "❌ Please check your previous hint and try again.";
         }
     </script>
@@ -90,3 +52,6 @@
     </footer>
 </body>
 </html>
+
+
+      
